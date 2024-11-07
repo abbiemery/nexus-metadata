@@ -17,7 +17,7 @@ type Energy = f64;
 #[derive(SimpleObject, Clone, FromRow, Debug)]
 pub struct InsertionDevice {
     pub default: Option<String>,
-    // pub r#type: Option<InsertionDeviceType>,
+    pub r#type: Option<String>,
     pub gap: Option<Length>,
     pub taper: Option<Angle>,
     pub phase: Option<Angle>,
