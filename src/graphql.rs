@@ -7,8 +7,12 @@ use axum::response::Html;
 use axum::routing::get;
 use axum::{extract::Extension, response::IntoResponse, routing::post, Router};
 
-pub async fn serve_graphql() -> () {
-    let schema = Schema::build(Query, EmptyMutation, EmptySubscription).finish();
+use crate::sqlite::SqliteService;
+
+pub async fn serve_graphql(db: SqliteService) {
+    let schema = Schema::build(Query, EmptyMutation, EmptySubscription)
+        .data(db)
+        .finish();
 
     let app = Router::new()
         .route("/graphql", post(graphql_handler))
@@ -69,10 +73,10 @@ impl Query {
             gap: None,
             taper: None,
             phase: None,
-            poles: Some(2),
+            poles: Some(3),
             magnetic_wavelength: None,
             k: None,
-            length: Some(4.0),
+            length: Some(3.0),
             power: None,
             energy: None,
             bandwidth: None,

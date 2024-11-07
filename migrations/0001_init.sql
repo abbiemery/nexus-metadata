@@ -28,5 +28,5 @@ CREATE TABLE insertion_device (
 );
 
 -- Test Data
-INSERT INTO insertion_device (poles, length) VALUES (30,2.0), (4,3.0);
+INSERT INTO insertion_device (poles, length) VALUES (1,1.0), (2,2.0);
 INSERT INTO devices (beamline, device_name, uuid) VALUES ('i22', 'undulator', 1)
