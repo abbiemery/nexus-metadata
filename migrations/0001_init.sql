@@ -9,6 +9,7 @@ CREATE TABLE devices (
 /* https://manual.nexusformat.org/classes/base_classes/NXinsertion_device.html#nxinsertion-device */
 CREATE TABLE insertion_device (
     uuid INTEGER PRIMARY KEY AUTOINCREMENT,
+    "default" CHAR,
     type CHAR,
     gap FLOAT,
     taper FLOAT,
