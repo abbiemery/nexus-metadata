@@ -1,4 +1,4 @@
-use async_graphql::{Enum, OutputType, SimpleObject};
+use async_graphql::{Enum, SimpleObject};
 use sqlx::FromRow;
 
 // NeXus definitions
@@ -32,7 +32,9 @@ pub struct InsertionDevice {
     pub depends_on: Option<String>,
 }
 
-#[derive(SimpleObject)]
-pub struct Devices<T: OutputType> {
-    devices: Vec<T>,
+#[derive(SimpleObject, Clone, FromRow, Debug)]
+pub struct Devices {
+    pub beamline: String,
+    pub device_name: String,
+    pub uuid: i64,
 }

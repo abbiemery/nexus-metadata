@@ -1,13 +1,6 @@
-use sqlx::{sqlite::SqliteConnectOptions, FromRow, SqlitePool};
+use sqlx::{sqlite::SqliteConnectOptions, SqlitePool};
 
-use crate::entities::InsertionDevice;
-
-#[derive(Clone, FromRow, Debug)]
-pub struct Device {
-    pub beamline: String,
-    pub device_name: String,
-    pub uuid: i64,
-}
+use crate::entities::{Devices, InsertionDevice};
 
 #[derive(Clone)]
 pub struct SqliteService {
@@ -30,8 +23,8 @@ impl SqliteService {
         Ok(ins_results)
     }
 
-    pub async fn get_devices(&self) -> Result<Vec<Device>, sqlx::Error> {
-        let device_results = sqlx::query_as::<_, Device>("SELECT * from devices")
+    pub async fn get_devices(&self) -> Result<Vec<Devices>, sqlx::Error> {
+        let device_results = sqlx::query_as::<_, Devices>("SELECT * from devices")
             .fetch_all(&self.pool)
             .await?;
         Ok(device_results)

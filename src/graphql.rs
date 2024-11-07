@@ -5,7 +5,7 @@ use axum::response::Html;
 use axum::routing::get;
 use axum::{extract::Extension, response::IntoResponse, routing::post, Router};
 
-use crate::entities::InsertionDevice;
+use crate::entities::{Devices, InsertionDevice};
 use crate::sqlite::SqliteService;
 
 pub async fn serve_graphql(db: SqliteService) {
@@ -36,6 +36,11 @@ impl Query {
         let db = ctx.data::<SqliteService>()?;
         let insertion_devices = SqliteService::get_insertion_devices(&db).await.unwrap();
         Ok(insertion_devices)
+    }
+    async fn all_devices(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<Devices>> {
+        let db = ctx.data::<SqliteService>()?;
+        let all_devices = SqliteService::get_devices(&db).await.unwrap();
+        Ok(all_devices)
     }
 }
 
