@@ -1,11 +1,6 @@
 use sqlx::{sqlite::SqliteConnectOptions, FromRow, SqlitePool};
 
-#[derive(Clone, FromRow, Debug)]
-pub struct InsertionDevice {
-    pub uuid: i64,
-    pub poles: i64,
-    pub length: f64,
-}
+use crate::entities::InsertionDevice;
 
 #[derive(Clone, FromRow, Debug)]
 pub struct Device {
@@ -29,11 +24,9 @@ impl SqliteService {
         Ok(Self { pool })
     }
     pub async fn get_insertion_devices(&self) -> Result<Vec<InsertionDevice>, sqlx::Error> {
-        let ins_results = sqlx::query_as::<_, InsertionDevice>(
-            "SELECT uuid, poles, length from insertion_device",
-        )
-        .fetch_all(&self.pool)
-        .await?;
+        let ins_results = sqlx::query_as::<_, InsertionDevice>("SELECT * from insertion_device")
+            .fetch_all(&self.pool)
+            .await?;
         Ok(ins_results)
     }
 

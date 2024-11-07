@@ -1,3 +1,4 @@
+mod entities;
 mod graphql;
 mod sqlite;
 
@@ -13,10 +14,7 @@ async fn main() {
         .await
         .unwrap();
     for device in insertion_devices {
-        println!(
-            "uuid: {}, poles: {}, length: {}",
-            device.uuid, device.poles, device.length
-        );
+        println!("poles: {:?}, length: {:?}", device.poles, device.length);
     }
 
     // Get all of the devices.
