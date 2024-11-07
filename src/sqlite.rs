@@ -14,6 +14,7 @@ pub struct Device {
     pub uuid: i64,
 }
 
+#[derive(Clone)]
 pub struct SqliteService {
     pool: SqlitePool,
 }
