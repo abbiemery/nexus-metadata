@@ -1,5 +1,5 @@
 use async_graphql::http::GraphiQLSource;
-use async_graphql::{Context, EmptyMutation, EmptySubscription, Object, Schema};
+use async_graphql::{Context, EmptySubscription, Object, Schema};
 use async_graphql_axum::{GraphQLRequest, GraphQLResponse};
 use axum::response::Html;
 use axum::routing::get;
@@ -9,7 +9,7 @@ use crate::entities::{Devices, InsertionDevice};
 use crate::sqlite::SqliteService;
 
 pub async fn serve_graphql(db: SqliteService) {
-    let schema = Schema::build(Query, EmptyMutation, EmptySubscription)
+    let schema = Schema::build(Query, Mutation, EmptySubscription)
         .data(db)
         .finish();
 
@@ -44,8 +44,32 @@ impl Query {
     }
 }
 
+struct Mutation;
+
+#[Object]
+impl Mutation {
+    async fn add_device(
+        &self,
+        ctx: &Context<'_>,
+        beamline: String,
+        device_name: String,
+        uuid: i64,
+    ) -> async_graphql::Result<Vec<Devices>> {
+        let db = ctx.data::<SqliteService>()?;
+        let results = sqlx::query_as::<_, Devices>(
+            "INSERT INTO devices (beamline, device_name, uuid) VALUES ($1, $2, $3)",
+        )
+        .bind(beamline)
+        .bind(device_name)
+        .bind(uuid)
+        .fetch_all(&db.pool)
+        .await?;
+        Ok(results)
+    }
+}
+
 async fn graphql_handler(
-    schema: Extension<Schema<Query, EmptyMutation, EmptySubscription>>,
+    schema: Extension<Schema<Query, Mutation, EmptySubscription>>,
     req: GraphQLRequest,
 ) -> GraphQLResponse {
     schema.execute(req.into_inner()).await.into()
