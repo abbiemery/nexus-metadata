@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - name: Checkout source
-    - uses: actions/checkout@v4
+      uses: actions/checkout@v4
 
     - name: Install toolchain
       uses: dtolnay/rust-toolchain@stable
@@ -23,7 +23,7 @@ jobs:
           components: rustfmt, clippy
 
     - name : Cache Rust build  
-    - uses: Swatinem/rust-cache@v2
+      uses: Swatinem/rust-cache@v2
 
     - name: Check formating
       run: cargo fmt -- --check
@@ -39,7 +39,7 @@ jobs:
 
     steps:
     - name: Checkout source
-    - uses: actions/checkout@v4
+      uses: actions/checkout@v4
 
     - name: Install toolchain
       uses: dtolnay/rust-toolchain@stable
@@ -48,7 +48,7 @@ jobs:
           components: rustfmt, clippy
 
     - name : Cache Rust build  
-    - uses: Swatinem/rust-cache@v2
+      uses: Swatinem/rust-cache@v2
 
     - name: Check formating
       run: cargo fmt -- --check
