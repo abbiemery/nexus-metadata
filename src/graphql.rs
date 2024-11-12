@@ -34,12 +34,12 @@ impl Query {
         ctx: &Context<'_>,
     ) -> async_graphql::Result<Vec<InsertionDevice>> {
         let db = ctx.data::<SqliteService>()?;
-        let insertion_devices = SqliteService::get_insertion_devices(&db).await.unwrap();
+        let insertion_devices = SqliteService::get_insertion_devices(db).await.unwrap();
         Ok(insertion_devices)
     }
     async fn all_devices(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<Devices>> {
         let db = ctx.data::<SqliteService>()?;
-        let all_devices = SqliteService::get_devices(&db).await.unwrap();
+        let all_devices = SqliteService::get_devices(db).await.unwrap();
         Ok(all_devices)
     }
 }
