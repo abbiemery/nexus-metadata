@@ -48,6 +48,22 @@ struct Mutation;
 
 #[Object]
 impl Mutation {
+    async fn add_insertion_device(
+        &self,
+        ctx: &Context<'_>,
+        poles: i32,
+        length: f64,
+    ) -> async_graphql::Result<Vec<InsertionDevice>> {
+        let db = ctx.data::<SqliteService>()?;
+        let results = sqlx::query_as::<_, InsertionDevice>(
+            "INSERT INTO insertion_device (poles, length) VALUES ($1, $2)",
+        )
+        .bind(poles)
+        .bind(length)
+        .fetch_all(&db.pool)
+        .await?;
+        Ok(results)
+    }
     async fn add_device(
         &self,
         ctx: &Context<'_>,
