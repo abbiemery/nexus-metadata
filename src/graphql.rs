@@ -64,24 +64,6 @@ impl Mutation {
         .await?;
         Ok(results)
     }
-    async fn add_device(
-        &self,
-        ctx: &Context<'_>,
-        beamline: String,
-        device_name: String,
-        uuid: i64,
-    ) -> async_graphql::Result<Vec<Devices>> {
-        let db = ctx.data::<SqliteService>()?;
-        let results = sqlx::query_as::<_, Devices>(
-            "INSERT INTO devices (beamline, device_name, uuid) VALUES ($1, $2, $3)",
-        )
-        .bind(beamline)
-        .bind(device_name)
-        .bind(uuid)
-        .fetch_all(&db.pool)
-        .await?;
-        Ok(results)
-    }
 }
 
 async fn graphql_handler(
