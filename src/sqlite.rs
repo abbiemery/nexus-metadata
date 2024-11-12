@@ -4,7 +4,7 @@ use crate::entities::{Devices, InsertionDevice};
 
 #[derive(Clone)]
 pub struct SqliteService {
-    pool: SqlitePool,
+    pub pool: SqlitePool,
 }
 impl SqliteService {
     pub async fn connect(path: &str) -> Result<Self, sqlx::Error> {
