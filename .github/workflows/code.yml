@@ -10,11 +10,12 @@ env:
 jobs:
 
   lint:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout source
-    - uses: actions/checkout@v4
+      uses: actions/checkout@v4
 
     - name: Install toolchain
       uses: dtolnay/rust-toolchain@stable
@@ -23,7 +24,7 @@ jobs:
           components: rustfmt, clippy
 
     - name : Cache Rust build  
-    - uses: Swatinem/rust-cache@v2
+      uses: Swatinem/rust-cache@v2
 
     - name: Check formating
       run: cargo fmt -- --check
@@ -35,11 +36,12 @@ jobs:
         cargo clippy --all-targets --all-features -- --deny warnings
 
   test:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout source
-    - uses: actions/checkout@v4
+      uses: actions/checkout@v4
 
     - name: Install toolchain
       uses: dtolnay/rust-toolchain@stable
@@ -48,7 +50,7 @@ jobs:
           components: rustfmt, clippy
 
     - name : Cache Rust build  
-    - uses: Swatinem/rust-cache@v2
+      uses: Swatinem/rust-cache@v2
 
     - name: Check formating
       run: cargo fmt -- --check
